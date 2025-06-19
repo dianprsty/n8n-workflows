@@ -1,0 +1,132 @@
+{
+  "active": false,
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Create URL string",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create URL string": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-06-08T13:27:20.197Z",
+  "id": "SThILtMRx5U5J8QU",
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "[Template] Simple API",
+  "nodes": [
+    {
+      "parameters": {
+        "path": "6f7b288e-1efe-4504-a6fd-660931327269",
+        "authentication": "headerAuth",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "2045655e-e0e9-43b5-9d72-6bbd0eb84a92",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "position": [
+        20,
+        140
+      ],
+      "webhookId": "6f7b288e-1efe-4504-a6fd-660931327269",
+      "typeVersion": 1,
+      "notesInFlow": false
+    },
+    {
+      "parameters": {
+        "content": "## Create a simple API endpoint\n\nIn this workflow we show how to create a simple API endpoint with `Webhook` and `Respond to Webhook` nodes\n\n",
+        "height": 280,
+        "width": 600
+      },
+      "id": "a4e754dc-4eac-4f7a-8209-6496c21c38a7",
+      "name": "Note1",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        0,
+        0
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "respondWith": "text",
+        "responseBody": "=The URL of the Google search query for the term \"{{$node[\"Webhook\"].json[\"query\"][\"first_name\"]}} {{$node[\"Webhook\"].json[\"query\"][\"last_name\"]}}\" is: {{$json[\"product\"]}}",
+        "options": {}
+      },
+      "id": "333a4445-f4bc-494b-9305-7b65961527ab",
+      "name": "Respond to Webhook",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "position": [
+        460,
+        140
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "keepOnlySet": true,
+        "values": {
+          "string": [
+            {
+              "name": "product",
+              "value": "=https://www.google.com/search?q={{$json[\"query\"][\"first_name\"]}}+{{$json[\"query\"][\"last_name\"]}}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "e5dcabfb-fe48-432e-944d-70d4aaa26389",
+      "name": "Create URL string",
+      "type": "n8n-nodes-base.set",
+      "position": [
+        240,
+        140
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "content": "### How to use it\n1. Execute the workflow so that the webhook starts listening\n2. Make a test request by pasting, **in a new browser tab**, the test URL from the `Webhook` node and appending the following test at the end `?first_name=bob&last_name=dylan`\n\nYou will receive the following output in the new tab `The URL of the Google search query for the term \"bob dylan\" is: https://www.google.com/search?q=bob+dylan`\n\n",
+        "height": 220,
+        "width": 600
+      },
+      "id": "a523adef-c15f-4317-b654-bade67491167",
+      "name": "Note3",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        0,
+        300
+      ],
+      "typeVersion": 1
+    }
+  ],
+  "pinData": {},
+  "repo_name": null,
+  "repo_owner": null,
+  "repo_path": null,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-06-11T13:54:26.000Z",
+  "versionId": "24805b37-6d5a-4840-a737-7801b341f25d"
+}
