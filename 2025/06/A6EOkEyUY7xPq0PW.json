@@ -1,0 +1,791 @@
+{
+  "active": true,
+  "connections": {
+    "Telegram Trigger": {
+      "main": [
+        [
+          {
+            "node": "Validate Message Type",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract title": {
+      "main": [
+        [
+          {
+            "node": "Merge Title And Sumarize Result",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Default Data Loader": {
+      "ai_document": [
+        [
+          {
+            "node": "Sumarize Web Content",
+            "type": "ai_document",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Recursive Character Text Splitter": {
+      "ai_textSplitter": [
+        [
+          {
+            "node": "Default Data Loader",
+            "type": "ai_textSplitter",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Sumarize Web Content",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Validate Message Type": {
+      "main": [
+        [
+          {
+            "node": "Send Command Not Available",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Check Is Message Has Url",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send Invalid Message",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send Invalid Message",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send Invalid Message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Body": {
+      "main": [
+        [
+          {
+            "node": "Sumarize Web Content",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Sumarize Web Content": {
+      "main": [
+        [
+          {
+            "node": "Merge Title And Sumarize Result",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Merge Title And Sumarize Result": {
+      "main": [
+        [
+          {
+            "node": "Save To Notion",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Save To Notion": {
+      "main": [
+        [
+          {
+            "node": "Send Reply",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Necessary Data": {
+      "main": [
+        [
+          {
+            "node": "Save To Notion1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Save To Notion1": {
+      "main": [
+        [
+          {
+            "node": "Send Reply1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Reply1": {
+      "main": [
+        []
+      ]
+    },
+    "Check Is Message Has Url": {
+      "main": [
+        [
+          {
+            "node": "Fetch Url",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Get Necessary Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fetch Url": {
+      "main": [
+        [
+          {
+            "node": "Extract title",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Extract Body",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-06-04T02:17:58.335Z",
+  "id": "A6EOkEyUY7xPq0PW",
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "[Project] Second Brain",
+  "nodes": [
+    {
+      "parameters": {
+        "updates": [
+          "message"
+        ],
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        260,
+        -980
+      ],
+      "id": "2dd53172-177f-43c2-aa85-e9a3d23910d4",
+      "name": "Telegram Trigger",
+      "webhookId": "e9bcfa43-22f5-4070-bbd1-f470bf913e5d",
+      "credentials": {
+        "telegramApi": {
+          "id": "uqnYxANRWtu3rwLe",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "extractHtmlContent",
+        "extractionValues": {
+          "values": [
+            {
+              "key": "title",
+              "cssSelector": "title"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "b3a356af-152b-4cbd-9bdd-1e15ba32e566",
+      "name": "Extract title",
+      "type": "n8n-nodes-base.html",
+      "position": [
+        660,
+        -1060
+      ],
+      "typeVersion": 1.2
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.documentDefaultDataLoader",
+      "typeVersion": 1,
+      "position": [
+        600,
+        -860
+      ],
+      "id": "a76c5395-0b18-46cd-a8d6-24fef3b6c304",
+      "name": "Default Data Loader"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.textSplitterRecursiveCharacterTextSplitter",
+      "typeVersion": 1,
+      "position": [
+        -260,
+        -1000
+      ],
+      "id": "ddf79faf-5bc7-46ac-8ff1-1211ecfa8a38",
+      "name": "Recursive Character Text Splitter"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-1.5-flash",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        460,
+        -740
+      ],
+      "id": "ec6de309-1378-4b06-be59-8773a65a328f",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "gkkTrXK0TB8baizL",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "64bc5c6f-c4b5-406f-b6a5-77c41c75e0c6",
+                    "leftValue": "={{ $json.message.text }}",
+                    "rightValue": "/",
+                    "operator": {
+                      "type": "string",
+                      "operation": "startsWith"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "command"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "d046efc1-4b70-4df0-bb35-a218dc1831f2",
+                    "leftValue": "={{ $json.message.text }}",
+                    "rightValue": "={{ $json.message.link_preview_options.url }}",
+                    "operator": {
+                      "type": "string",
+                      "operation": "exists",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "text"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "f8011556-6e23-4f10-9c83-79e3fb2e5d06",
+                    "leftValue": "={{ $json.message.voice }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "object",
+                      "operation": "exists",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "voice"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "3bbf9066-6b45-4210-96a4-951911242800",
+                    "leftValue": "={{ $json.message.photo }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "array",
+                      "operation": "exists",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "image"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "afd53d03-a915-4c19-b756-ddd347d682c6",
+                    "leftValue": "={{ $json.message.document }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "object",
+                      "operation": "exists",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "document"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        -440,
+        -480
+      ],
+      "id": "e91905ab-a0dd-4903-8f4b-9379953c343c",
+      "name": "Validate Message Type"
+    },
+    {
+      "parameters": {
+        "operation": "extractHtmlContent",
+        "extractionValues": {
+          "values": [
+            {
+              "key": "data",
+              "cssSelector": "body",
+              "skipSelectors": "img,nav",
+              "returnArray": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.html",
+      "typeVersion": 1.2,
+      "position": [
+        140,
+        -560
+      ],
+      "id": "5f287b94-7741-451e-96db-5ee6b64e48ed",
+      "name": "Extract Body"
+    },
+    {
+      "parameters": {
+        "operationMode": "documentLoader",
+        "options": {
+          "summarizationMethodAndPrompts": {
+            "values": {
+              "summarizationMethod": "stuff",
+              "prompt": "Explain to me what is this webpage talks about in an easy to understand language\n\n\n\"{text}\"\n"
+            }
+          }
+        }
+      },
+      "id": "e01586c1-9bd8-413d-8cb6-179e1846e9c0",
+      "name": "Sumarize Web Content",
+      "type": "@n8n/n8n-nodes-langchain.chainSummarization",
+      "position": [
+        -440,
+        -40
+      ],
+      "typeVersion": 2
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineByPosition",
+        "options": {}
+      },
+      "id": "f9c867dc-50d5-4fa7-867d-d0b95ccbf64f",
+      "name": "Merge Title And Sumarize Result",
+      "type": "n8n-nodes-base.merge",
+      "position": [
+        40,
+        -740
+      ],
+      "typeVersion": 3
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "databaseId": {
+          "__rl": true,
+          "value": "20805c83-3d29-8015-8a33-d5184964e97a",
+          "mode": "list",
+          "cachedResultName": "N8N Second Brain",
+          "cachedResultUrl": "https://www.notion.so/20805c833d2980158a33d5184964e97a"
+        },
+        "title": "={{ $json.title }}",
+        "propertiesUi": {
+          "propertyValues": [
+            {
+              "key": "Url|url",
+              "urlValue": "={{ $('Telegram Trigger').item.json.message.link_preview_options.url }}"
+            }
+          ]
+        },
+        "blockUi": {
+          "blockValues": [
+            {
+              "richText": true,
+              "text": {
+                "text": [
+                  {
+                    "text": "Resource",
+                    "isLink": true,
+                    "textLink": "={{ $('Telegram Trigger').item.json.message.link_preview_options.url }}",
+                    "annotationUi": {
+                      "color": "green"
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "textContent": "={{ $json.response.text }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.2,
+      "position": [
+        940,
+        -540
+      ],
+      "id": "e17eaa32-6ac9-4f1a-8ae1-167f9e4b6035",
+      "name": "Save To Notion",
+      "credentials": {
+        "notionApi": {
+          "id": "qyOcjADnGG1r6eBq",
+          "name": "Notion account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+        "text": "=Catatan berhasil disimpan\n\n{{ $json.name }}\n{{ $json.url }}",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        -680,
+        -300
+      ],
+      "id": "0db07bea-5ce4-495c-bcc6-28534ddcbe3e",
+      "name": "Send Reply",
+      "webhookId": "d446fb39-2f60-403c-ada2-92eabc61b603",
+      "credentials": {
+        "telegramApi": {
+          "id": "uqnYxANRWtu3rwLe",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "573b8309-998d-4aa7-ad70-2fb2d48b2edf",
+              "name": "message.text",
+              "value": "={{ $json.message.text }}",
+              "type": "string"
+            },
+            {
+              "id": "a4a56555-3f7a-40d1-bbee-7fe49ca6397f",
+              "name": "message.from.id",
+              "value": "={{ $json.message.from.id }}",
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        620,
+        -20
+      ],
+      "id": "4950cbab-ddae-44c9-b470-1af5c52ebb0d",
+      "name": "Get Necessary Data"
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "databaseId": {
+          "__rl": true,
+          "value": "20805c83-3d29-8015-8a33-d5184964e97a",
+          "mode": "list",
+          "cachedResultName": "N8N Second Brain",
+          "cachedResultUrl": "https://www.notion.so/20805c833d2980158a33d5184964e97a"
+        },
+        "title": "={{ $('Telegram Trigger').item.json.update_id.toString() }}",
+        "blockUi": {
+          "blockValues": [
+            {
+              "textContent": "={{ $('Telegram Trigger').item.json.message.text }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.2,
+      "position": [
+        -680,
+        -1020
+      ],
+      "id": "85c03dad-ccb5-40f4-a938-e06029fc13c5",
+      "name": "Save To Notion1",
+      "credentials": {
+        "notionApi": {
+          "id": "qyOcjADnGG1r6eBq",
+          "name": "Notion account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+        "text": "=Catatan Berhasil Disimpan\n\n{{ $json.url }}",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        538,
+        -300
+      ],
+      "id": "27c4123e-f9a8-46cf-8aad-02315a19e133",
+      "name": "Send Reply1",
+      "webhookId": "d446fb39-2f60-403c-ada2-92eabc61b603",
+      "credentials": {
+        "telegramApi": {
+          "id": "uqnYxANRWtu3rwLe",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+        "text": "=Mohon maaf, format pesan tidak didukung",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        980,
+        -920
+      ],
+      "id": "5f6b5968-e10e-4f99-a09b-5e250bc52328",
+      "name": "Send Invalid Message",
+      "webhookId": "d446fb39-2f60-403c-ada2-92eabc61b603",
+      "credentials": {
+        "telegramApi": {
+          "id": "uqnYxANRWtu3rwLe",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "cf46bed7-c52b-4c8b-9613-6131dcdc10fd",
+              "leftValue": "={{ $('Telegram Trigger').item.json.message.link_preview_options.url }}",
+              "rightValue": "={{ $('Telegram Trigger').item.json.message.link_preview_options.url }}",
+              "operator": {
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -680,
+        -420
+      ],
+      "id": "5cbfda31-662e-4087-9007-9b79f9095b55",
+      "name": "Check Is Message Has Url"
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.message.link_preview_options.url }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        820,
+        -220
+      ],
+      "id": "75b16f1b-dfca-4df1-ab16-3e66a5ca4e68",
+      "name": "Fetch Url"
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+        "text": "=Mohon maaf, format pesan tidak didukung",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        400,
+        -20
+      ],
+      "id": "94830192-08e9-4f90-90fa-549a69a7cbbc",
+      "name": "Send Command Not Available",
+      "webhookId": "d446fb39-2f60-403c-ada2-92eabc61b603",
+      "credentials": {
+        "telegramApi": {
+          "id": "uqnYxANRWtu3rwLe",
+          "name": "Telegram account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "repo_name": null,
+  "repo_owner": null,
+  "repo_path": null,
+  "settings": {
+    "executionOrder": "v1",
+    "timezone": "Asia/Jakarta",
+    "callerPolicy": "workflowsFromSameOwner"
+  },
+  "staticData": null,
+  "tags": [
+    {
+      "createdAt": "2025-06-11T15:02:09.508Z",
+      "updatedAt": "2025-06-11T15:02:09.508Z",
+      "id": "yuGTR1usSKxbZkt0",
+      "name": "second brain"
+    }
+  ],
+  "triggerCount": 1,
+  "updatedAt": "2025-06-19T09:01:45.000Z",
+  "versionId": "9f50d192-bfa6-408b-8347-88ed6867ee91"
+}
