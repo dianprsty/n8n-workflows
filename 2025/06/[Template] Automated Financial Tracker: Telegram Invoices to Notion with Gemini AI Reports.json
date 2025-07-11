@@ -1,0 +1,667 @@
+{
+  "active": false,
+  "connections": {
+    "Telegram": {
+      "main": [
+        [
+          {
+            "node": "Get Image Info",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Chart": {
+      "main": [
+        [
+          {
+            "node": "Send Chart Image to Group or Private Chat",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Image Info": {
+      "main": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Basic LLM Chain": {
+      "main": [
+        [
+          {
+            "node": "Split Out | data transaction",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Sendback to chat and give summarize text",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Summarize Transaction Data": {
+      "main": [
+        [
+          {
+            "node": "Convert Data to JSON chart payload",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Recent Data from Notions": {
+      "main": [
+        [
+          {
+            "node": "Summarize Transaction Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse To your object | Table": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out | data transaction": {
+      "main": [
+        [
+          {
+            "node": "Record To Notion Database",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Convert Data to JSON chart payload": {
+      "main": [
+        [
+          {
+            "node": "Generate Chart",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Telegram Trigger | When recive photo": {
+      "main": [
+        [
+          {
+            "node": "Telegram",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger | for send chart report": {
+      "main": [
+        [
+          {
+            "node": "Get Recent Data from Notions",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-06-08T13:42:05.410Z",
+  "id": "Ul8pME2UiBVOVk9u",
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "[Template] Automated Financial Tracker: Telegram Invoices to Notion with Gemini AI Reports",
+  "nodes": [
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.5-flash-preview-04-17",
+        "options": {}
+      },
+      "id": "dcd352f1-c368-4596-b065-2491aa935f06",
+      "name": "Google Gemini Chat Model",
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "position": [
+        560,
+        400
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=ini ada base64 invoice rangkumkan Pengeluaran dari invoice tersebut Nama Barang jumlah dan Pengeluaran masing masing barang dan total, outputnya jangan panjang panjang saya cukup berikan \n\ndate: DD-MM-YYYY ( Jika dari OCR tidak ada tanggal ambil tanggal hari ini )\nid:\nname:\n qty: \nprice:\n total:\ncategory:\ntax : (jika di total berbeda dengan item brati ada pajak nya hitungkan juga pajaknya masukan kesini)\n\nuntuk pilihan categorynya : Food & Beverage / Transportation / Utilities / Shopping / Healthcare / Entertaiment / Housing / Education\n\ndalam bentuk JSON array object, berikan juga key message summary untuk rangkuman, berikan rangkauman singkat total pengeluaran dan barang apa saja yang dibeli serta jumlah nya berikan juga pajaknya",
+        "hasOutputParser": true,
+        "messages": {
+          "messageValues": [
+            {
+              "type": "HumanMessagePromptTemplate",
+              "messageType": "imageBinary"
+            }
+          ]
+        }
+      },
+      "id": "f84bb8bf-864e-4759-abf6-2dd5a847a817",
+      "name": "Basic LLM Chain",
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "position": [
+        520,
+        240
+      ],
+      "typeVersion": 1.4
+    },
+    {
+      "parameters": {
+        "content": "## Automated Financial Tracker: Telegram Invoices to Notion with AI Summaries & Reports\n",
+        "height": 580,
+        "width": 1703
+      },
+      "id": "5b1ebc90-6480-48cb-97c6-a44de09ccb3c",
+      "name": "Sticky Note",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -120,
+        20
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "content": "## Schedule report to send on chanel or private message\n",
+        "height": 527,
+        "width": 1706,
+        "color": 5
+      },
+      "id": "4ee9bdc3-cac3-4926-a775-7153051359b4",
+      "name": "Sticky Note1",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -120,
+        640
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {}
+          ]
+        }
+      },
+      "id": "405fd88a-4346-4eef-a828-adac6ac978af",
+      "name": "Schedule Trigger | for send chart report",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "position": [
+        -40,
+        900
+      ],
+      "typeVersion": 1.2
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "operation": "getAll",
+        "databaseId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "1d858554-d218-807c-936c-d06c8a8ec769",
+          "cachedResultUrl": "https://www.notion.so/1d858554d218807c936cd06c8a8ec769",
+          "cachedResultName": "Pengeluaran Rizqi Dini"
+        },
+        "returnAll": true,
+        "filterType": "manual",
+        "filters": {
+          "conditions": [
+            {
+              "key": "Created time|created_time",
+              "condition": "past_week"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "705e3bd9-8147-4b92-8c25-4cef1f5f1283",
+      "name": "Get Recent Data from Notions",
+      "type": "n8n-nodes-base.notion",
+      "position": [
+        280,
+        960
+      ],
+      "typeVersion": 2.2
+    },
+    {
+      "parameters": {
+        "fieldsToSummarize": {
+          "values": [
+            {
+              "aggregation": "sum",
+              "field": "property_total"
+            }
+          ]
+        },
+        "fieldsToSplitBy": "property_category",
+        "options": {}
+      },
+      "id": "86661b36-d8ac-462a-b1de-391a52479a54",
+      "name": "Summarize Transaction Data",
+      "type": "n8n-nodes-base.summarize",
+      "position": [
+        640,
+        940
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "labelsMode": "array",
+        "labelsArray": "={{ $json.chart.data.labels }}",
+        "data": "={{ $json.chart.data.datasets[0].data }}",
+        "chartOptions": {},
+        "datasetOptions": {}
+      },
+      "id": "7a2c531a-be1a-48ba-ac26-c14dbc904642",
+      "name": "Generate Chart",
+      "type": "n8n-nodes-base.quickChart",
+      "position": [
+        1080,
+        920
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "operation": "sendPhoto",
+        "chatId": "-1001957001324",
+        "binaryData": true,
+        "additionalFields": {
+          "fileName": "chart",
+          "message_thread_id": 571
+        }
+      },
+      "id": "fd5dc683-a28e-44b0-8293-0fb7971483a8",
+      "name": "Send Chart Image to Group or Private Chat",
+      "type": "n8n-nodes-base.telegram",
+      "position": [
+        1340,
+        780
+      ],
+      "webhookId": "66cce6e1-819c-487b-b8ad-3f02aebd40cb",
+      "typeVersion": 1.2
+    },
+    {
+      "parameters": {
+        "jsCode": "const labels = [];\nconst values = [];\n\nfor (const item of items) {\n  labels.push(item.json.property_category);\n  values.push(item.json.sum_property_total);\n}\n\nreturn [\n  {\n    json: {\n      chart: {\n        type: 'bar',\n        data: {\n          labels,\n          datasets: [\n            {\n              label: 'Spending by Category',\n              data: values,\n              backgroundColor: 'rgba(54, 162, 235, 0.6)',\n              borderColor: 'rgba(54, 162, 235, 1)',\n              borderWidth: 1\n            }\n          ]\n        },\n        options: {\n          plugins: {\n            title: {\n              display: true,\n              text: 'Spending Summary by Category'\n            }\n          },\n          scales: {\n            y: {\n              beginAtZero: true\n            }\n          }\n        }\n      }\n    }\n  }\n];"
+      },
+      "id": "80ada672-27d0-41fa-a6d8-1f0f6be5788f",
+      "name": "Convert Data to JSON chart payload",
+      "type": "n8n-nodes-base.code",
+      "position": [
+        960,
+        920
+      ],
+      "typeVersion": 2
+    },
+    {
+      "parameters": {
+        "updates": [
+          "message"
+        ],
+        "additionalFields": {}
+      },
+      "id": "2d2f1e2d-9eb3-406e-a9eb-39ee43a7f7e9",
+      "name": "Telegram Trigger | When recive photo",
+      "type": "n8n-nodes-base.telegramTrigger",
+      "position": [
+        40,
+        180
+      ],
+      "webhookId": "cac4ce91-ed1f-42ea-aebe-97ac3612aea6",
+      "typeVersion": 1.1
+    },
+    {
+      "parameters": {
+        "operation": "information"
+      },
+      "id": "a6c0b06d-21db-446a-bcd0-5c878d88d335",
+      "name": "Get Image Info",
+      "type": "n8n-nodes-base.editImage",
+      "position": [
+        340,
+        180
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "schemaType": "manual",
+        "inputSchema": "{\n  \"type\": \"object\",\n  \"properties\": {\n    \"message\": {\n      \"type\": \"string\"\n    },\n    \"summary\": {\n      \"type\": \"array\",\n      \"items\": {\n        \"type\": \"object\",\n        \"properties\": {\"date\": { \"type\": \"date\" },\n          \"id\": { \"type\": \"integer\" },\n          \"name\": { \"type\": \"string\" },\n          \"qty\": { \"type\": \"integer\" },\n          \"price\": { \"type\": \"number\" },\n          \"tax\": { \"type\": \"number\" },\n          \"total\": { \"type\": \"number\" },\"category\": { \"type\": \"string\" }\n        },\n        \"required\": [\"id\", \"name\", \"qty\", \"price\", \"total\",\"category\"]\n      }\n    }\n  },\n  \"required\": [\"message\", \"summary\"]\n}\n"
+      },
+      "id": "119dd2a3-552a-4de6-b55f-5c5e46115378",
+      "name": "Parse To your object | Table",
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "position": [
+        920,
+        480
+      ],
+      "typeVersion": 1.2
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "output.summary",
+        "options": {}
+      },
+      "id": "2f970016-6231-4b90-901b-6e4ce04a5dba",
+      "name": "Split Out | data transaction",
+      "type": "n8n-nodes-base.splitOut",
+      "position": [
+        1000,
+        60
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Telegram Trigger | When recive photo').item.json.message.chat.id }}",
+        "text": "={{ $json.output.message }}",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "id": "b70d8ba0-7ab9-4a80-a5d0-78ded5a87b6c",
+      "name": "Sendback to chat and give summarize text",
+      "type": "n8n-nodes-base.telegram",
+      "position": [
+        1360,
+        420
+      ],
+      "webhookId": "f90475fa-69cd-4e19-bc93-bffdceae8324",
+      "typeVersion": 1.2
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "databaseId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "1d858554-d218-807c-936c-d06c8a8ec769",
+          "cachedResultUrl": "https://www.notion.so/1d858554d218807c936cd06c8a8ec769",
+          "cachedResultName": "Pengeluaran Rizqi Dini"
+        },
+        "propertiesUi": {
+          "propertyValues": [
+            {
+              "key": "Name|title",
+              "title": "={{ $json.name }}"
+            },
+            {
+              "key": "Quantity|number",
+              "numberValue": "={{ $json.qty }}"
+            },
+            {
+              "key": "Price|number",
+              "numberValue": "={{ $json.price }}"
+            },
+            {
+              "key": "Total|number",
+              "numberValue": "={{ $json.total }}"
+            },
+            {
+              "key": "Category|select",
+              "selectValue": "={{ $json.category }}"
+            },
+            {
+              "key": "Date|rich_text",
+              "textContent": "={{ $json.date }}"
+            },
+            {
+              "key": "Tax|number",
+              "numberValue": "={{ $json.tax }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "553595b7-6c27-42bb-8659-597d48ec82c7",
+      "name": "Record To Notion Database",
+      "type": "n8n-nodes-base.notion",
+      "position": [
+        1460,
+        140
+      ],
+      "typeVersion": 2.2
+    },
+    {
+      "parameters": {
+        "content": "📸 INVOICE INPUT 📸\nBot listens here for photos of your receipts/invoices.\nEnsure your Telegram Bot API token is set in credentials.",
+        "height": 280,
+        "width": 340,
+        "color": 3
+      },
+      "id": "04810bfd-14b6-47d3-9de0-ec74fe92470c",
+      "name": "Sticky Note2",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -80,
+        80
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "content": "🤖 AI MAGIC HAPPENS HERE 🧠\n- Image is sent to Google Gemini for data extraction.\n- Check 'Basic LLM Chain' to customize the AI prompt (e.g., categories, output format).\n- Requires Google Gemini API credentials.",
+        "height": 460,
+        "width": 360,
+        "color": 5
+      },
+      "id": "b0fce258-5e1a-481d-988a-2f063ee4d4b4",
+      "name": "Sticky Note3",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        480,
+        80
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "content": "✨ STRUCTURING AI DATA ✨\nConverts the AI's text output into a usable JSON object.\nCheck the schema if you modify the AI prompt significantly.",
+        "height": 200,
+        "width": 280,
+        "color": 5
+      },
+      "id": "20cccba8-3149-4121-8df5-96dd551e1009",
+      "name": "Sticky Note4",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        860,
+        360
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "content": "📝 SAVING TO NOTION 📝\n- Extracted transaction data is saved here.\n- Configure with your Notion API key & Database ID.\n- Map fields correctly to your database columns!",
+        "height": 240,
+        "width": 380,
+        "color": 2
+      },
+      "id": "49143276-fe0e-4181-9593-698d166621bb",
+      "name": "Sticky Note5",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1200,
+        20
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "content": "REPORTING SCHEDULE 🗓️\nSet how often you want to receive your spending report (e.g., weekly, monthly).",
+        "height": 280
+      },
+      "id": "f219bc4f-e4ce-4405-a02f-31a04124f721",
+      "name": "Sticky Note6",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -100,
+        780
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "content": "📊 FETCHING DATA FOR REPORT 📊\n- Retrieves transactions from Notion for the report period.\n- Default: \"Past Week\". Adjust filter as needed.\n- Requires Notion API credentials & Database ID.",
+        "height": 380,
+        "width": 280,
+        "color": 2
+      },
+      "id": "24a390a2-7fa2-4690-b24e-44c824f5e4b1",
+      "name": "Sticky Note7",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        200,
+        780
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "content": "➕ SUMMARIZING SPENDING ➕\nAggregates your expenses, usually by category,\nto prepare for the chart.",
+        "height": 360,
+        "width": 320
+      },
+      "id": "bc922780-29a8-4b28-841a-42f5918c22fa",
+      "name": "Sticky Note8",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        540,
+        760
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "content": "📈 GENERATING VISUAL REPORT 📈\nCreates the actual chart image based on your spending data.\nYou can customize chart type (bar, pie, etc.) here.",
+        "height": 340,
+        "width": 300
+      },
+      "id": "aec65118-55d3-4f39-9d16-17c4b1b62dd5",
+      "name": "Sticky Note9",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        920,
+        760
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "content": "📤 SENDING REPORT TO TELEGRAM 📤\n- Delivers the generated chart to your chosen Telegram chat/group.\n- Set the correct Chat ID and Bot API token.",
+        "height": 300,
+        "width": 300,
+        "color": 6
+      },
+      "id": "c5d7516a-dbd3-4096-b153-a89cf02a1e58",
+      "name": "Sticky Note10",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1260,
+        660
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "content": "💬 TRANSACTION SUMMARY 💬\nSends a confirmation message back to the user in Telegram\nwith a summary of the recorded expense.",
+        "height": 280,
+        "width": 300,
+        "color": 6
+      },
+      "id": "38faca03-c398-4806-a38a-c0f4f28a38ea",
+      "name": "Sticky Note11",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1200,
+        300
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "content": "  🔑 CREDENTIALS NEEDED 🔑\n  Remember to set up API keys/tokens for:\n  - Telegram\n  - Google Gemini\n  - Notion\n\n  💡 CUSTOMIZE ME! 💡\n  - Adjust AI prompts for better accuracy.\n  - Change Notion database structure.\n  - Modify report frequency and content.\n",
+        "height": 240,
+        "width": 460,
+        "color": 7
+      },
+      "id": "f1ca4d0f-9447-447a-969b-12ebc32ff84a",
+      "name": "Sticky Note12",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -80,
+        380
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "resource": "file",
+        "fileId": "={{ $json.message.photo[3].file_id }}"
+      },
+      "id": "4b1a1c9b-fff8-4952-87c9-454baaaef20d",
+      "name": "Telegram",
+      "type": "n8n-nodes-base.telegram",
+      "position": [
+        200,
+        180
+      ],
+      "webhookId": "6e801e0b-72d1-42a9-ac47-61ac113a01d2",
+      "typeVersion": 1.2
+    }
+  ],
+  "pinData": {},
+  "repo_name": null,
+  "repo_owner": null,
+  "repo_path": null,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-06-11T13:53:52.000Z",
+  "versionId": "f131202d-0be0-48d2-bb46-12cec9d668e5"
+}
