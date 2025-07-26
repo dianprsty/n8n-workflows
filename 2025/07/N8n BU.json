@@ -1,0 +1,185 @@
+{
+  "active": false,
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Get All Workflows",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "GitHub",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get All Workflows": {
+      "main": [
+        [
+          {
+            "node": "Split Out",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-07-26T03:22:15.785Z",
+  "id": "Puy520JVfaefwGLO",
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "N8n BU",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 2
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        0
+      ],
+      "id": "f10d443f-d9d4-4704-a707-d4aadc6a2845",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "1",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        440,
+        0
+      ],
+      "id": "e7f1de5f-cd46-4c16-83a4-a55f5ac23179",
+      "name": "Split Out"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "03a2ff86-c72e-4307-80af-080c2eba610c",
+              "name": "fileName",
+              "value": "={{ $json.name.replace(/[\\/\\\\?%*:|\"<>]/g, '-') }}.json",
+              "type": "string"
+            },
+            {
+              "id": "ea6b4c19-1286-47a9-824b-71b31be4168b",
+              "name": "fileContent",
+              "value": "={{ JSON.stringify($json, null, 2) }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        660,
+        0
+      ],
+      "id": "9be8cea5-4cc2-4b76-b42d-3f6a534d4926",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "resource": "file",
+        "operation": "get",
+        "owner": {
+          "__rl": true,
+          "value": "https://github.com/dianprsty",
+          "mode": "url"
+        },
+        "repository": {
+          "__rl": true,
+          "value": "n8n-workflows",
+          "mode": "list",
+          "cachedResultName": "n8n-workflows",
+          "cachedResultUrl": "https://github.com/dianprsty/n8n-workflows"
+        },
+        "filePath": "={{ $node[\"Set\"].json[\"fileName\"] }}",
+        "additionalParameters": {}
+      },
+      "type": "n8n-nodes-base.github",
+      "typeVersion": 1,
+      "position": [
+        880,
+        0
+      ],
+      "id": "6453831e-c2a2-4e07-a378-d45415b573bd",
+      "name": "GitHub",
+      "credentials": {
+        "githubApi": {
+          "id": "IGv6R5emUGzQ1w26",
+          "name": "GitHub account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "filters": {},
+        "requestOptions": {}
+      },
+      "id": "6df6eb0b-a339-4cc5-8aa9-ee0db0e56f01",
+      "name": "Get All Workflows",
+      "type": "n8n-nodes-base.n8n",
+      "typeVersion": 1,
+      "position": [
+        260,
+        0
+      ],
+      "credentials": {
+        "n8nApi": {
+          "id": "nx5IE8ihEvpDWBLe",
+          "name": "n8n account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "repo_name": null,
+  "repo_owner": null,
+  "repo_path": null,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-07-26T03:27:05.000Z",
+  "versionId": "10ea303e-c8d2-4b01-9793-6f1b88ab9c59"
+}
